@@ -4,6 +4,7 @@ from torchvision import datasets
 from torchvision.transforms import transforms
 import torch.nn as nn
 from tqdm import tqdm
+import pandas as pd
 
 
 #--------------------------------------------------
@@ -44,6 +45,8 @@ loss_fn = torch.nn.BCELoss()
 optimizer = torch.optim.Adam(classifier.parameters())
 
 def train_loop(epochs: int):
+    losses = []
+
     for epoch in range(epochs):
         epoch_loss = 0.0
 
@@ -62,8 +65,10 @@ def train_loop(epochs: int):
             )
 
             epoch_loss += loss.item()
+            losses.append(loss.item())
 
         print(f"EPOCH {epoch} LOSS {epoch_loss / len(dataloader)}")
+
 
 if __name__ == "__main__":
     train_loop(epochs=num_epochs)
